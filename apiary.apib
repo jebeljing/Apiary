@@ -1,0 +1,130 @@
+FORMAT: 1A
+HOST: http://api.spiderlog.net
+
+# Spider Log API
+Provides services for the Spider Log app family, recording the world's spider sightings
+
+#Group Spiders
+Access to Spider resources
+
+
+## My Spiders [/spiders/{?page,size}]
+### Get all my spider sightings [GET]
+
++ Parameters
+    + page (required, number, `1`)... `page` number
+    + size (required, number, `10`)... page `size`
++ Request
+
+    + Header
+    
+            Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+            x-api-version: 1.0
+
++ Response 200 (application/json)
+    + Header
+    
+            ETag : "euyfewuyfvew76f7"
+            cache-control: max-age=600
+    + Body
+    
+            {
+                "page" : 
+                {
+                    "number" : 1,
+                    "size": 10,
+                    "totalPages": 20
+                },
+                "spiders" :
+                [
+                    {
+                        "sightedAt" : "2014-08-29T07:00",
+                        "imageUrl" : "http://localhost:8080/uid-123.jpg",
+                        "description" : "Spider I saw on the train",
+                        "tags" : [
+                            "stripy"
+                        ]
+                    },
+                    {
+                        "sightedAt" : "2014-08-29T13:00",
+                        "imageUrl" : "http://localhost:8080/uid-124.jpg",
+                        "description" : "Spider I saw at the office",
+                        "tags" : [
+                            "big"
+                        ]
+                    }
+                ]
+            }
+            
+## Create a new Spider [/spiders]
+### Create a spider sighting [POST]
++ Request
+    + Header
+            
+            Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+            Content-type: application/json
+            x-api-version: 1.0
+    + Body
+    
+            {
+                "sightedAt": "2014:08-29T07:10",
+                "imageUrl": "https://localhost:8080/uid-12345",
+                "description": "Another spider I saw on the train (or was it the same ont?)"
+                "tags": [
+                    "stripy"
+                ]
+            }
+
++ Response 201 (application/json)
+    + Header
+    
+            Location: spiders/abbd4122
+            
+            
+## One of my spider sightings [/spiders/{id}]
+### Get a spider sighting [GET]
++ Parameters
+    + id (required, string,  `aba443c`)... `id` of the spider sighting
+    
++ Request
+    + Header
+    
+            Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+            x-api-version: 1.0
+
++ Response 200 (application/json)
+    + Header
+    
+            ETag: "euyfewuyfvew76f7"
+            cache-control: max-age=600
+    + Body
+    
+            {
+                "sightedAt": "2014-08-29T07:00"
+                "imageUrl": "https://localhost:8080/uid12346"
+                "description": "Spider I saw on the train",
+                "tags": [
+                    "stripy"
+                ]
+            }
+            
+            
+            
+### Update a spider sighting [PUT]
++ Parameters
+    + id (required, string, `aba443c`)... `id` of the spider sighting
+    
++ Request
+    + Header
+    
+            Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+            Content-type: application/json
+            x-api-version: 1.0
+    + Body
+    
+            {
+                "sightedAt": "2014-08-29T07:15"
+                "description": "No, it was definitely different"
+            }
++ Response 200
+    
